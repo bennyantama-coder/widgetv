@@ -729,7 +729,7 @@ public class MainActivity extends Activity {
      */
     private long nowMillis() {
         if (fakeMinutes < 0 && fakeDate == null) return System.currentTimeMillis();
-        ZoneId zone = ZoneId.systemDefault();
+        ZoneId zone = cfg.primaryZone;
         java.time.LocalDate d = fakeDate != null ? fakeDate : java.time.LocalDate.now(zone);
         java.time.LocalTime t = fakeMinutes >= 0 ? java.time.LocalTime.of(fakeMinutes / 60, fakeMinutes % 60)
                 : java.time.LocalTime.now(zone);
@@ -737,7 +737,7 @@ public class MainActivity extends Activity {
     }
 
     private ZonedDateTime nowZoned() {
-        return java.time.Instant.ofEpochMilli(nowMillis()).atZone(ZoneId.systemDefault());
+        return java.time.Instant.ofEpochMilli(nowMillis()).atZone(cfg.primaryZone);
     }
 
     /** Clocks + prayer day + date line + thought, without the weather stale check. */
@@ -767,7 +767,7 @@ public class MainActivity extends Activity {
     }
 
     private String clockText(long millis) {
-        return hmAmPm(java.time.Instant.ofEpochMilli(millis).atZone(ZoneId.systemDefault()), DateFormat.is24HourFormat(this));
+        return hmAmPm(java.time.Instant.ofEpochMilli(millis).atZone(cfg.primaryZone), DateFormat.is24HourFormat(this));
     }
 
     /**
@@ -899,7 +899,7 @@ public class MainActivity extends Activity {
             return;
         }
         LocalDate today = fakeDate != null ? fakeDate
-                : java.time.Instant.ofEpochMilli(nowMillis()).atZone(ZoneId.systemDefault()).toLocalDate();
+                : java.time.Instant.ofEpochMilli(nowMillis()).atZone(cfg.primaryZone).toLocalDate();
         if (today.equals(shownThoughtDate)) return;
         Thoughts.Thought t = thoughts.pick(today);
 

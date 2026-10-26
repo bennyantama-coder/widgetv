@@ -155,7 +155,7 @@ public final class PrayerTimeline extends View {
     }
 
     private String clock(long t) {
-        java.util.Calendar cal = java.util.Calendar.getInstance();
+        java.util.Calendar cal = java.util.Calendar.getInstance(java.util.TimeZone.getTimeZone(day.zone));
         cal.setTimeInMillis(t);
         int h = cal.get(java.util.Calendar.HOUR_OF_DAY), m = cal.get(java.util.Calendar.MINUTE);
         if (h24) return String.format(Locale.US, "%02d:%02d", h, m);

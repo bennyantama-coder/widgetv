@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Build the launcher, install it on the TV, make it HOME and check that it is.
+# Build and install only; preserve the stock HOME app.
 #
 # Usage: tools/build-install.sh                 build + install + set as home
 #        tools/build-install.sh --build-only    just build launcher/app/build/outputs/apk/debug/app-debug.apk
@@ -76,21 +76,4 @@ echo "pm install: $result"
 adb_tv shell rm -f /data/local/tmp/launcher.apk
 [[ "$result" == *Success* ]] || { echo "Install failed. See docs/TROUBLESHOOTING.md#install-fails" >&2; exit 1; }
 
-# Location only lets the Wi-Fi button show the network name; nothing else reads it.
-tv_sh pm grant "$PKG" android.permission.ACCESS_FINE_LOCATION
-tv_sh pm grant "$PKG" android.permission.ACCESS_COARSE_LOCATION
-echo "set-home-activity: $(tv_sh cmd package set-home-activity "$HOME_ACTIVITY")"
-adb_tv shell input keyevent KEYCODE_HOME
-sleep 2
-focused="$(tv_sh dumpsys activity activities | grep -m1 mFocusedApp)"
-echo "$focused"
-if [[ "$focused" != *"$PKG"* ]]; then
-  cat >&2 <<'EOF'
-
-WARNING: HOME still opens another app. On Google TV "set-home-activity" can print Success and change
-nothing; the stock launcher (and sometimes the setup wizard) must be disabled first.
-Follow docs/TROUBLESHOOTING.md#home-takeover, then run this script again.
-EOF
-  exit 3
-fi
-echo "The launcher is HOME ($PKG)."
+echo "APK terpasang. Buka WidgeTV dari daftar aplikasi. Launcher bawaan tetap aktif."

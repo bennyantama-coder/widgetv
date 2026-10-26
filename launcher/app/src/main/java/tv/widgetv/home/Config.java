@@ -20,6 +20,7 @@ final class Config {
 
     final boolean prayerEnabled;
     final String cityLabel;
+    final ZoneId primaryZone;
     final double lat, lng;
     final CalculationMethod method;
     final Madhab madhab;
@@ -48,6 +49,7 @@ final class Config {
 
     private Config(Context c) {
         Resources r = c.getResources();
+        primaryZone = ZoneId.of(r.getString(R.string.primary_zone).trim());
         prayerEnabled = r.getBoolean(R.bool.prayer_enabled);
         cityLabel = r.getString(R.string.prayer_city_label).trim();
         lat = coordinate(r.getString(R.string.prayer_lat), 90, "prayer_lat");

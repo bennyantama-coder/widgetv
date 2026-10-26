@@ -4,9 +4,10 @@
   Edit it, then run tools/build-install.sh. Nothing else in the launcher needs to change.
 
   The values shipped here are the example used for the screenshots in docs/screenshots:
-  prayer times for Hyderabad, India, and a second clock for Kitchener, Canada.
+  Padang, Asia/Jakarta, Singapore method, Shafi Asr; second clock disabled.
 -->
 <resources>
+    <string name="primary_zone" translatable="false">Asia/Jakarta</string>
 
     <!-- ============================================================ prayer times -->
 
@@ -17,11 +18,11 @@
     <bool name="prayer_enabled">true</bool>
 
     <!-- Your city. Shown in the title of the on-TV Prayer settings panel ("Prayer settings · Hyderabad"). -->
-    <string name="prayer_city_label" translatable="false">Hyderabad</string>
+    <string name="prayer_city_label" translatable="false">Padang</string>
 
     <!-- Decimal degrees, north and east positive (south and west negative). Four decimals is plenty. -->
-    <string name="prayer_lat" translatable="false">17.3850</string>
-    <string name="prayer_lng" translatable="false">78.4867</string>
+    <string name="prayer_lat" translatable="false">-0.9471</string>
+    <string name="prayer_lng" translatable="false">100.4172</string>
 
     <!-- Default calculation method. One of:
            KARACHI                  University of Islamic Sciences, Karachi (India, Pakistan, Bangladesh)
@@ -35,15 +36,15 @@
            SINGAPORE                Singapore, Malaysia, Indonesia
            MOON_SIGHTING_COMMITTEE  Moonsighting Committee Worldwide (UK and others)
          The Prayer settings panel on the TV can change it later; this is only the starting value. -->
-    <string name="prayer_method" translatable="false">KARACHI</string>
+    <string name="prayer_method" translatable="false">SINGAPORE</string>
 
     <!-- Default Asr school: HANAFI (later Asr) or SHAFI (Shafi'i, Maliki, Hanbali). Changeable on the TV. -->
-    <string name="prayer_madhab" translatable="false">HANAFI</string>
+    <string name="prayer_madhab" translatable="false">SHAFI</string>
 
     <!-- ============================================================ second clock -->
 
     <!-- A small clock top right for a second city (family abroad, work). false hides it and its weather. -->
-    <bool name="second_clock_enabled">true</bool>
+    <bool name="second_clock_enabled">false</bool>
 
     <!-- Only used for logs and accessibility; the screen shows the flag, not the name. -->
     <string name="second_city_label" translatable="false">Kitchener</string>
@@ -76,24 +77,20 @@
     <!-- Dock apps, left to right (four fit best). Packages that are not installed are skipped.
          Find package names with: adb shell pm list packages | grep -i netflix -->
     <string-array name="dock_packages" translatable="false">
-        <item>in.startv.hotstar</item>
-        <item>com.google.android.youtube.tv</item>
         <item>com.netflix.ninja</item>
-        <item>com.amazon.amazonvideo.livingroom</item>
+        <item>com.netflix.mediaclient</item>
+        <item>com.google.android.youtube.tv</item>
+        <item>com.google.android.youtube</item>
     </string-array>
 
     <!-- Never shown in the app grid. List the dock apps again so the grid stays clean if one is
          later dropped from the dock. The launcher itself is always hidden.
          Packages that are not installed are ignored, so leftovers are harmless. -->
     <string-array name="hidden_packages" translatable="false">
-        <!-- Sony BRAVIA: re-enabled by the firmware at every boot, so hidden instead of disabled. -->
-        <item>com.sony.dtv.ecodashboard</item>
-        <item>com.sony.dtv.ipcontrol</item>
-        <!-- Another launcher you tried and disabled, for example: <item>tv.afnon.home</item> -->
-        <item>in.startv.hotstar</item>
-        <item>com.google.android.youtube.tv</item>
         <item>com.netflix.ninja</item>
-        <item>com.amazon.amazonvideo.livingroom</item>
+        <item>com.netflix.mediaclient</item>
+        <item>com.google.android.youtube.tv</item>
+        <item>com.google.android.youtube</item>
     </string-array>
 
     <!-- ============================================================ look -->

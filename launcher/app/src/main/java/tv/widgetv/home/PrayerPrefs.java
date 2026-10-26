@@ -99,10 +99,10 @@ final class PrayerPrefs {
      * offsets, so the panel's prayer settings never shift the sky.
      */
     static PrayerDay skyDay(Context c, long now) {
-        return new PrayerDay(now, where(c), Config.get(c).method, Madhab.SHAFI, new int[6]);
+        return new PrayerDay(now, where(c), Config.get(c).method, Madhab.SHAFI, new int[6], Config.get(c).primaryZone);
     }
 
     static PrayerDay day(Context c, long now) {
-        return new PrayerDay(now, where(c), METHODS[methodIndex(c)], hanafi(c) ? Madhab.HANAFI : Madhab.SHAFI, offsets(c));
+        return new PrayerDay(now, where(c), METHODS[methodIndex(c)], hanafi(c) ? Madhab.HANAFI : Madhab.SHAFI, offsets(c), Config.get(c).primaryZone);
     }
 }

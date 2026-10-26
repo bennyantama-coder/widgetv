@@ -27,13 +27,15 @@ final class PrayerDay {
             "Dhu al-Hijjah"}; // Afnon Text.java:310
 
     final long now;
+    final java.time.ZoneId zone;
     /** Today's six times, epoch millis. */
     final long[] times = new long[6];
     final long yesterdayIsha, tomorrowFajr;
     final int hijriDay, hijriMonth, hijriYear;
 
-    PrayerDay(long now, Coordinates where, CalculationMethod method, Madhab madhab, int[] offsets) {
+    PrayerDay(long now, Coordinates where, CalculationMethod method, Madhab madhab, int[] offsets, java.time.ZoneId zone) {
         this.now = now;
+        this.zone = zone;
         CalculationParameters params = method.getParameters();
         params.madhab = madhab;
         params.adjustments.fajr = offsets[FAJR];
@@ -42,11 +44,11 @@ final class PrayerDay {
         params.adjustments.maghrib = offsets[MAGHRIB];
         params.adjustments.isha = offsets[ISHA];
 
-        Calendar c = Calendar.getInstance();
+        Calendar c = Calendar.getInstance(java.util.TimeZone.getTimeZone(zone));
         c.setTimeInMillis(now);
         long yIsha, tFajr;
         try {
-            PrayerTimes today = new PrayerTimes(where, DateComponents.from(c.getTime()), params);
+            PrayerTimes today = new PrayerTimes(where, new DateComponents(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH)), params);
             times[FAJR] = today.fajr.getTime();
             times[SUNRISE] = today.sunrise.getTime();
             times[DHUHR] = today.dhuhr.getTime();
@@ -54,9 +56,9 @@ final class PrayerDay {
             times[MAGHRIB] = today.maghrib.getTime();
             times[ISHA] = today.isha.getTime();
             c.add(Calendar.DAY_OF_MONTH, -1);
-            yIsha = new PrayerTimes(where, DateComponents.from(c.getTime()), params).isha.getTime();
+            yIsha = new PrayerTimes(where, new DateComponents(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH)), params).isha.getTime();
             c.add(Calendar.DAY_OF_MONTH, 2);
-            tFajr = new PrayerTimes(where, DateComponents.from(c.getTime()), params).fajr.getTime();
+            tFajr = new PrayerTimes(where, new DateComponents(c.get(Calendar.YEAR), c.get(Calendar.MONTH) + 1, c.get(Calendar.DAY_OF_MONTH)), params).fajr.getTime();
         } catch (RuntimeException noSolution) { // adhan-java leaves a time null when the sun never reaches it
             yIsha = Long.MAX_VALUE;
             tFajr = 0;
@@ -66,7 +68,7 @@ final class PrayerDay {
             // the sky and the timeline still work. This never happens at ordinary latitudes.
             Log.w(Config.TAG, "prayer: times out of order at this latitude; using fixed fallback hours");
             int[] minutes = {5 * 60, 6 * 60 + 30, 12 * 60 + 30, 15 * 60 + 30, 18 * 60 + 30, 20 * 60};
-            Calendar d = Calendar.getInstance();
+            Calendar d = Calendar.getInstance(java.util.TimeZone.getTimeZone(zone));
             d.setTimeInMillis(now);
             d.set(Calendar.SECOND, 0);
             d.set(Calendar.MILLISECOND, 0);
@@ -81,7 +83,7 @@ final class PrayerDay {
         yesterdayIsha = yIsha;
         tomorrowFajr = tFajr;
 
-        IslamicCalendar h = new IslamicCalendar();
+        IslamicCalendar h = new IslamicCalendar(android.icu.util.TimeZone.getTimeZone(zone.getId()));
         h.setCalculationType(IslamicCalendar.CalculationType.ISLAMIC_UMALQURA);
         h.setTime(new Date(now));
         hijriDay = h.get(IslamicCalendar.DAY_OF_MONTH);

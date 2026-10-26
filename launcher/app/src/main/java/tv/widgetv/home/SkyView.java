@@ -160,8 +160,8 @@ public final class SkyView extends View {
         }
     }
 
-    private static int dayOfYear() {
-        return Calendar.getInstance().get(Calendar.DAY_OF_YEAR);
+    private int dayOfYear() {
+        return Calendar.getInstance(java.util.TimeZone.getTimeZone(Config.get(getContext()).primaryZone)).get(Calendar.DAY_OF_YEAR);
     }
 
     static int lerpColor(int a, int b, float t) {

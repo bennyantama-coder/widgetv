@@ -1,3 +1,7 @@
+> **Edisi Padang / SMOON 230T:** mulai dari [PANDUAN-SMOON.md](PANDUAN-SMOON.md).
+> Jangan mengikuti petunjuk debloat/takeover upstream di bawah. Launcher bawaan dan aplikasi sistem harus tetap aktif.
+> Status paket ini: sumber dan workflow disiapkan; build APK belum lulus atau terverifikasi.
+
 # WidgeTV
 
 **A calm, widget-first home screen for Android TV: a sky that moves with the day, glanceable clocks,
